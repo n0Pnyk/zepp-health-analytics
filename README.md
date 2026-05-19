@@ -135,3 +135,11 @@ zepp-health config --path  # 显示配置文件搜索路径
 ## Skill 版本
 
 如需 LLM 驱动的个性化健康分析（适合 OpenClaw / hermes-agent），请使用 [zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill)。
+
+## 免责声明
+
+本工具仅供健康数据参考，不构成医疗建议。如有健康问题请咨询专业医生。
+
+## 许可证
+
+[MIT License](LICENSE)
