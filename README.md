@@ -1,145 +1,145 @@
 # Zepp Health CLI
 
-通过 Zepp/Amazfit API 拉取健康数据，进行归一化处理和健康评分分析。
+Fetch health data from Zepp/Amazfit API, normalize it, and compute health scores.
 
-## 功能
+## Features
 
-- 拉取 Zepp 全量健康数据：步数、睡眠、心率、压力、血氧、身体电量、准备度、HRV、呼吸频率、运动记录
-- 数据归一化处理，与 Zepp app 显示值对齐
-- 基于运动科学的独立健康评分算法（参考 Athlytic 思路）
-- 多维度健康分析：恢复评分、睡眠质量、训练负荷
-- 三种输出格式：JSON、终端格式化、自然语言早报
+- Full health data: steps, sleep, heart rate, stress, SpO2, body battery, readiness, HRV, respiratory rate, workouts
+- Data normalization aligned with the Zepp app display values
+- Independent health scoring algorithm (inspired by Athlytic)
+- Multi-dimensional analysis: recovery, sleep quality, training load
+- Three output formats: JSON, terminal, natural language briefing
 
-## 安装
+## Installation
 
 ```bash
 cd zepp-health
 pip install -e .
 ```
 
-## 配置
+## Configuration
 
-从 Zepp 网页端（app.zepp.com）登录后，从浏览器开发者工具复制 Cookie 字符串。
+Get your cookie from the Zepp web portal (app.zepp.com) via browser developer tools (F12 → Network).
 
-**方式一：config.json**
+**Option 1: config.json**
 
 ```bash
 cp config.example.json config.json
-# 编辑 config.json，填入 app_token、user_id
+# Edit config.json with your app_token and user_id
 ```
 
-**方式二：环境变量**
+**Option 2: Environment variables**
 
 ```bash
 cp .env.example .env
-# 编辑 .env
+# Edit .env
 ```
 
-**方式三：CLI 参数**
+**Option 3: CLI arguments**
 
 ```bash
 zepp-health --cookie "your_cookie_string" report
 ```
 
-配置优先级：CLI 参数 > cookie 解析 > config.json > 环境变量
+Priority: CLI args > cookie parsing > config.json > environment variables
 
-## CLI 用法
+## CLI Usage
 
 ```bash
-# 每日健康报告
+# Daily health report
 zepp-health report [--date YYYY-MM-DD] [--json] [-o file]
 
-# 健康早报（自然语言，适合推送）
+# Morning briefing (natural language, good for push notifications)
 zepp-health briefing [--date YYYY-MM-DD] [--json]
 
-# LLM 分析用数据快照（含 7 天趋势）
+# LLM analysis snapshot (includes 7-day trends)
 zepp-health snapshot [--date YYYY-MM-DD] [--json]
 
-# 原始数据查看
-zepp-health daily [--days N] [--json]      # 每日汇总
-zepp-health sleep [--days N] [--json]      # 睡眠
-zepp-health stress [--days N] [--json]     # 压力
-zepp-health spo2 [--days N] [--json]       # 血氧
-zepp-health readiness [--days N] [--json]  # 准备度
-zepp-health workouts [--days N] [--json]   # 运动
+# Raw data
+zepp-health daily [--days N] [--json]      # Daily summary
+zepp-health sleep [--days N] [--json]      # Sleep
+zepp-health stress [--days N] [--json]     # Stress
+zepp-health spo2 [--days N] [--json]       # SpO2
+zepp-health readiness [--days N] [--json]  # Readiness
+zepp-health workouts [--days N] [--json]   # Workouts
 zepp-health hrv [--days N] [--json]        # HRV
 
-# 配置
-zepp-health config         # 显示当前配置
-zepp-health config --path  # 显示配置文件搜索路径
+# Config
+zepp-health config         # Show current config
+zepp-health config --path  # Show config file search paths
 ```
 
-## 评分算法
+## Scoring Algorithm
 
-### 恢复评分（Recovery）
+### Recovery Score
 
-基于 HRV 和静息心率（RHR）与 60 天滚动基线的 z-score 对比。
+Based on z-score comparison of HRV and resting heart rate (RHR) against a 60-day rolling baseline.
 
-- HRV 权重 0.6：高于基线 = 恢复好
-- RHR 权重 0.4：低于基线 = 恢复好
-- 疲劳信号检测：连续 3 天 HRV 低于基线且 RHR 高于基线
-- 趋势分析：7 天线性回归斜率
+- HRV weight 0.6: above baseline = good recovery
+- RHR weight 0.4: below baseline = good recovery
+- Fatigue detection: 3 consecutive days of HRV below baseline and RHR above baseline
+- Trend analysis: 7-day linear regression slope
 
-### 睡眠质量评分（Sleep Quality）
+### Sleep Quality Score
 
-多维度加权评估：
+Multi-dimensional weighted evaluation:
 
-| 维度 | 权重 | 目标 |
-|------|------|------|
-| 时长 | 0.25 | 7-9 小时 |
-| 深睡占比 | 0.25 | 15-20% |
-| REM 占比 | 0.20 | 20-25% |
-| 睡眠效率 | 0.15 | ≥85% |
-| 中断惩罚 | 0.15 | 醒来次数+清醒时长 |
+| Dimension | Weight | Target |
+|-----------|--------|--------|
+| Duration | 0.25 | 7-9 hours |
+| Deep sleep % | 0.25 | 15-20% |
+| REM % | 0.20 | 20-25% |
+| Sleep efficiency | 0.15 | ≥85% |
+| Interruption penalty | 0.15 | Wake count + awake duration |
 
-### 训练负荷评分（Exertion）
+### Exertion Score (Training Load)
 
-基于急性（7天）/ 慢性（28天）训练负荷比率：
+Based on acute (7-day) / chronic (28-day) training load ratio:
 
-| 区间 | 比率 | 含义 |
-|------|------|------|
-| detraining | <0.8 | 训练不足 |
-| maintaining | 0.8-1.0 | 维持状态 |
-| productive | 1.0-1.3 | 有效提升 |
-| overreaching | 1.3-1.5 | 负荷偏高 |
-| high_risk | >1.5 | 过度训练风险 |
+| Zone | Ratio | Meaning |
+|------|-------|---------|
+| detraining | <0.8 | Under-training |
+| maintaining | 0.8-1.0 | Maintaining |
+| productive | 1.0-1.3 | Effective progression |
+| overreaching | 1.3-1.5 | High load |
+| high_risk | >1.5 | Overtraining risk |
 
-### 综合健康分
+### Overall Health Score
 
-加权组合：恢复 0.35 + 睡眠 0.30 + 训练负荷 0.15 + 压力 0.10 + 血氧 0.10
+Weighted combination: Recovery 0.35 + Sleep 0.30 + Exertion 0.15 + Stress 0.10 + SpO2 0.10
 
-## 数据验证状态
+## Data Validation
 
-| 数据项 | 与 app 对比 |
-|--------|------------|
-| 步数/距离/卡路里 | 完全一致 |
-| 睡眠（深睡/浅睡/REM/醒来次数） | 完全一致 |
-| 睡眠评分 | 完全一致 |
-| 静息心率 | 完全一致 |
-| 压力 | 个位数偏差（取整方式不同） |
-| 血氧 | 平均值差 1（计算方式不同） |
-| 身体电量 | 完全一致（+3 偏移修正） |
-| 准备度 | 完全一致 |
-| HRV | 完全一致 |
-| 皮肤温度 | 完全一致（calibrated/100） |
-| 连续心率 | API 限制，不可用 |
+| Data Point | vs Zepp App |
+|------------|-------------|
+| Steps / distance / calories | Exact match |
+| Sleep (deep/light/REM/wake count) | Exact match |
+| Sleep score | Exact match |
+| Resting heart rate | Exact match |
+| Stress | Minor rounding difference |
+| SpO2 | Avg differs by 1 (calculation method) |
+| Body battery | Exact match (+3 offset correction) |
+| Readiness | Exact match |
+| HRV | Exact match |
+| Skin temperature | Exact match (calibrated/100) |
+| Continuous HR | API limitation, unavailable |
 
-## 技术栈
+## Tech Stack
 
 - Python >= 3.10
-- httpx — HTTP 客户端
-- pydantic v2 — 数据模型和验证
-- rich — 终端格式化输出
-- python-dotenv — 环境变量管理
+- httpx — HTTP client
+- pydantic v2 — Data models and validation
+- rich — Terminal formatting
+- python-dotenv — Environment variable management
 
-## Skill 版本
+## Skill Version
 
-如需 LLM 驱动的个性化健康分析（适合 OpenClaw / hermes-agent），请使用 [zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill)。
+For LLM-driven personalized health analysis (for OpenClaw / hermes-agent), see [zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill).
 
-## 免责声明
+## Disclaimer
 
-本工具仅供健康数据参考，不构成医疗建议。如有健康问题请咨询专业医生。
+This tool is for informational purposes only and does not constitute medical advice. Consult a healthcare professional for any health concerns.
 
-## 许可证
+## License
 
 [MIT License](LICENSE)

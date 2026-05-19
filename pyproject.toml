@@ -1,7 +1,7 @@
 [project]
 name = "zepp-health"
 version = "0.1.0"
-description = "Zepp/Amazfit 健康数据分析，支持评分和风险预警"
+description = "Zepp/Amazfit health data analysis with scoring and risk alerts"
 requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27.0",
