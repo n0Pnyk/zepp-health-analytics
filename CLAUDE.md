@@ -1,38 +1,36 @@
-# Zepp Health 数据分析项目
+# Zepp Health Data Analysis Project
 
-通过 Zepp/Amazfit API 拉取健康数据，进行归一化处理和健康评分分析。
+Fetch health data from the Zepp/Amazfit API, normalize it, and compute health scores.
 
-## 技术栈
+## Tech Stack
 
 - Python >= 3.10
-- httpx — HTTP 客户端
-- pydantic v2 — 数据模型和验证
-- rich — 终端格式化输出
-- python-dotenv — 环境变量管理
+- httpx — HTTP client
+- pydantic v2 — Data models and validation
+- rich — Terminal formatting
+- python-dotenv — Environment variable management
 
-## 目录结构
+## Directory Structure
 
-- `zepp_health/` — 主包
-  - `config.py` — 配置加载 + cookie 解析
-  - `client.py` — API 客户端
-  - `models.py` — Pydantic 数据模型
-  - `scoring.py` — 健康评分算法
-  - `analysis.py` — 分析流水线
-  - `report.py` — 输出格式化
-  - `cli.py` — CLI 入口
-- `preference/` — 参考项目（只读，不修改）
+- `zepp_health/` — Main package
+  - `config.py` — Configuration loading + cookie parsing
+  - `client.py` — API client
+  - `models.py` — Pydantic data models
+  - `scoring.py` — Health scoring algorithm
+  - `analysis.py` — Analysis pipeline
+  - `report.py` — Output formatting
+  - `cli.py` — CLI entry point
 
-## 命名约定
+## Naming Conventions
 
-- 模块内函数用 snake_case
-- 类用 PascalCase
-- 常量用 UPPER_SNAKE_CASE
-- 注释用中文
+- Functions: snake_case
+- Classes: PascalCase
+- Constants: UPPER_SNAKE_CASE
 
-## API 认证
+## API Authentication
 
-从 cookie 字符串解析 apptoken/userid，中国区默认 host: api-mifit-cn3.zepp.com
+Parse apptoken/userid from cookie string. China region default host: api-mifit-cn3.zepp.com
 
-## 评分算法
+## Scoring Algorithm
 
-参考 Athlytic app，基于 HRV/RHR 的 60 天滚动基线对比做恢复评分。
+Inspired by Athlytic app. Recovery score based on HRV/RHR z-score comparison against 60-day rolling baseline.

@@ -1,6 +1,6 @@
-"""Zepp Health CLI 入口。
+"""Zepp Health CLI entry point.
 
-用法：
+Usage:
     zepp-health report [--date YYYY-MM-DD] [--json]
     zepp-health briefing [--date YYYY-MM-DD]
     zepp-health snapshot [--date YYYY-MM-DD] [--json]
@@ -28,7 +28,7 @@ from zepp_health.report import to_json, to_json_compact, to_morning_briefing, to
 
 
 def _load_config_from_args(args: argparse.Namespace) -> AppConfig:
-    """从 CLI 参数加载配置。"""
+    """Load configuration from CLI arguments."""
     return load_config(
         config_path=getattr(args, "config", None),
         cookie=getattr(args, "cookie", None),
@@ -39,7 +39,7 @@ def _load_config_from_args(args: argparse.Namespace) -> AppConfig:
 
 
 def _emit(data: object, args: argparse.Namespace) -> None:
-    """输出数据。--json 时输出紧凑 JSON，否则美化输出。"""
+    """Output data. Compact JSON when --json is specified, otherwise pretty-print."""
     if getattr(args, "json", False):
         if isinstance(data, str):
             print(data)
@@ -53,7 +53,7 @@ def _emit(data: object, args: argparse.Namespace) -> None:
 
 
 def cmd_report(args: argparse.Namespace) -> None:
-    """生成每日健康报告。"""
+    """Generate daily health report."""
     config = _load_config_from_args(args)
     target_date = date.fromisoformat(args.date) if args.date else None
 
@@ -65,17 +65,17 @@ def cmd_report(args: argparse.Namespace) -> None:
     else:
         output = to_terminal(report)
 
-    # 输出到文件或标准输出
+    # Output to file or stdout
     if hasattr(args, "output") and args.output:
         from pathlib import Path
         Path(args.output).write_text(output, encoding="utf-8")
-        print(f"报告已保存到: {args.output}", file=sys.stderr)
+        print(f"Report saved to: {args.output}", file=sys.stderr)
     else:
         print(output)
 
 
 def cmd_briefing(args: argparse.Namespace) -> None:
-    """生成早报文本。"""
+    """Generate morning briefing text."""
     config = _load_config_from_args(args)
     target_date = date.fromisoformat(args.date) if args.date else None
 
@@ -89,7 +89,7 @@ def cmd_briefing(args: argparse.Namespace) -> None:
 
 
 def cmd_daily(args: argparse.Namespace) -> None:
-    """查看每日原始数据。"""
+    """View daily raw data."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -120,7 +120,7 @@ def cmd_daily(args: argparse.Namespace) -> None:
 
 
 def cmd_sleep(args: argparse.Namespace) -> None:
-    """查看睡眠数据。"""
+    """View sleep data."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -147,7 +147,7 @@ def cmd_sleep(args: argparse.Namespace) -> None:
 
 
 def cmd_stress(args: argparse.Namespace) -> None:
-    """查看压力数据。"""
+    """View stress data."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -172,7 +172,7 @@ def cmd_stress(args: argparse.Namespace) -> None:
 
 
 def cmd_spo2(args: argparse.Namespace) -> None:
-    """查看血氧数据。"""
+    """View SpO2 data."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -199,7 +199,7 @@ def cmd_spo2(args: argparse.Namespace) -> None:
 
 
 def cmd_readiness(args: argparse.Namespace) -> None:
-    """查看准备度数据。"""
+    """View readiness data."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -229,7 +229,7 @@ def cmd_readiness(args: argparse.Namespace) -> None:
 
 
 def cmd_workouts(args: argparse.Namespace) -> None:
-    """查看运动记录。"""
+    """View workout records."""
     config = _load_config_from_args(args)
     end = date.today()
     start = end - timedelta(days=args.days - 1)
@@ -255,7 +255,7 @@ def cmd_workouts(args: argparse.Namespace) -> None:
 
 
 def cmd_hrv(args: argparse.Namespace) -> None:
-    """查看 HRV 数据。"""
+    """View HRV data."""
     config = _load_config_from_args(args)
     end = datetime.now()
     start = end - timedelta(days=args.days)
@@ -276,7 +276,7 @@ def cmd_hrv(args: argparse.Namespace) -> None:
 
 
 def cmd_snapshot(args: argparse.Namespace) -> None:
-    """导出 LLM 分析用的数据快照。"""
+    """Export data snapshot for LLM analysis."""
     config = _load_config_from_args(args)
     target_date = date.fromisoformat(args.date) if args.date else None
 
@@ -287,7 +287,7 @@ def cmd_snapshot(args: argparse.Namespace) -> None:
 
 
 def cmd_config(args: argparse.Namespace) -> None:
-    """显示配置信息。"""
+    """Show configuration info."""
     config = _load_config_from_args(args)
 
     if args.path:
@@ -297,7 +297,7 @@ def cmd_config(args: argparse.Namespace) -> None:
             print(f"  {exists} {p}")
         return
 
-    # 默认显示配置（隐藏 token）
+    # Show configuration by default (hide token)
     data = config.model_dump()
     if data.get("app_token"):
         t = data["app_token"]
@@ -306,85 +306,85 @@ def cmd_config(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    """CLI 主入口。"""
+    """CLI main entry point."""
     p = argparse.ArgumentParser(
         prog="zepp-health",
-        description="Zepp/Amazfit 健康数据分析工具",
+        description="Zepp/Amazfit health data analysis tool",
     )
 
-    # 全局选项
-    p.add_argument("--config", help="配置文件路径")
-    p.add_argument("--cookie", help="Zepp 网页端 cookie 字符串")
+    # Global options
+    p.add_argument("--config", help="Path to configuration file")
+    p.add_argument("--cookie", help="Zepp web cookie string")
     p.add_argument("--token", help="App token")
     p.add_argument("--user-id", help="User ID")
-    p.add_argument("--host", help="API host 覆盖")
+    p.add_argument("--host", help="API host override")
 
     sub = p.add_subparsers(dest="cmd", required=True)
 
     # report
-    sp = sub.add_parser("report", help="生成每日健康报告")
-    sp.add_argument("--date", help="日期 YYYY-MM-DD（默认今天）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
-    sp.add_argument("--output", "-o", help="输出到文件")
+    sp = sub.add_parser("report", help="Generate daily health report")
+    sp.add_argument("--date", help="Date YYYY-MM-DD (default: today)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
+    sp.add_argument("--output", "-o", help="Output to file")
     sp.set_defaults(func=cmd_report)
 
     # briefing
-    sp = sub.add_parser("briefing", help="生成早报文本")
-    sp.add_argument("--date", help="日期 YYYY-MM-DD（默认今天）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("briefing", help="Generate morning briefing text")
+    sp.add_argument("--date", help="Date YYYY-MM-DD (default: today)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_briefing)
 
     # daily
-    sp = sub.add_parser("daily", help="查看每日原始数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("daily", help="View daily raw data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_daily)
 
     # sleep
-    sp = sub.add_parser("sleep", help="查看睡眠数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("sleep", help="View sleep data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_sleep)
 
     # stress
-    sp = sub.add_parser("stress", help="查看压力数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("stress", help="View stress data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_stress)
 
     # spo2
-    sp = sub.add_parser("spo2", help="查看血氧数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("spo2", help="View SpO2 data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_spo2)
 
     # readiness
-    sp = sub.add_parser("readiness", help="查看准备度数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("readiness", help="View readiness data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_readiness)
 
     # workouts
-    sp = sub.add_parser("workouts", help="查看运动记录")
-    sp.add_argument("--days", type=int, default=30, help="天数（默认 30）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("workouts", help="View workout records")
+    sp.add_argument("--days", type=int, default=30, help="Number of days (default: 30)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_workouts)
 
     # hrv
-    sp = sub.add_parser("hrv", help="查看 HRV 数据")
-    sp.add_argument("--days", type=int, default=7, help="天数（默认 7）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("hrv", help="View HRV data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_hrv)
 
     # snapshot
-    sp = sub.add_parser("snapshot", help="导出 LLM 分析用的数据快照")
-    sp.add_argument("--date", help="日期 YYYY-MM-DD（默认今天）")
-    sp.add_argument("--json", action="store_true", help="JSON 格式输出")
+    sp = sub.add_parser("snapshot", help="Export data snapshot for LLM analysis")
+    sp.add_argument("--date", help="Date YYYY-MM-DD (default: today)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_snapshot)
 
     # config
-    sp = sub.add_parser("config", help="显示配置信息")
-    sp.add_argument("--path", action="store_true", help="显示配置文件搜索路径")
+    sp = sub.add_parser("config", help="Show configuration info")
+    sp.add_argument("--path", action="store_true", help="Show configuration file search paths")
     sp.set_defaults(func=cmd_config)
 
     args = p.parse_args()
