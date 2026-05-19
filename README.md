@@ -25,7 +25,19 @@ pip install -e .
 
 ### Configuration
 
-Get your cookie from the Zepp web portal (app.zepp.com) via browser developer tools (F12 → Network).
+#### Get your credentials
+
+1. Open the Zepp privacy data page and log in:
+   ```
+   https://user.huami.com/privacy2/index.html?loginPlatform=web&platform_app=com.xiaomi.hm.health
+   ```
+2. Open browser Developer Tools (F12) → Network tab
+3. Refresh the page (or click any page action)
+4. Find a request to `api-mifit*.zepp.com`
+5. Copy `apptoken` from request headers
+6. Copy `userid` from the request URL or query parameters
+
+> Token expires after ~30 days. When data returns null, re-extract a new token.
 
 **Option 1: config.json**
 
@@ -140,7 +152,19 @@ pip install -e .
 
 ### 配置
 
-从 Zepp 网页端（app.zepp.com）登录后，从浏览器开发者工具复制 Cookie 字符串。
+#### 获取认证信息
+
+1. 打开 Zepp 隐私数据页面并登录：
+   ```
+   https://user.huami.com/privacy2/index.html?loginPlatform=web&platform_app=com.xiaomi.hm.health
+   ```
+2. 打开浏览器开发者工具（F12）→ Network 标签
+3. 刷新页面（或点击页面任意操作）
+4. 找到发往 `api-mifit*.zepp.com` 的请求
+5. 从请求头复制 `apptoken`
+6. 从请求 URL 或参数中复制 `userid`
+
+> Token 约 30 天过期。数据返回 null 时，重新提取 token 即可。
 
 **方式一：config.json**
 
