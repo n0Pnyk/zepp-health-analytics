@@ -161,20 +161,20 @@ Target exertion zone is adaptive — recommended range adjusts based on your rec
 
 Weighted composite: Recovery 0.35 + Sleep 0.30 + Exertion 0.15 + Stress 0.10 + SpO2 0.10. Weights are redistributed proportionally when data is missing.
 
-### Data Validation
+### Data Accuracy
 
-| Data Point | vs Zepp App |
+| Data Point | Accuracy |
 |---|---|
-| Steps / distance / calories | Exact match |
-| Sleep (deep/light/REM/wake count) | Exact match |
-| Sleep score | Exact match |
-| Resting heart rate | Exact match |
+| Steps / distance / calories | Exact |
+| Sleep (deep/light/REM/wake count) | Exact |
+| Sleep score | Exact |
+| Resting heart rate | Exact |
 | Stress | Minor rounding difference |
 | SpO2 | Avg differs by 1 (calculation method) |
-| Body battery | Exact match (+3 offset correction) |
-| Readiness | Exact match |
-| HRV | Exact match |
-| Skin temperature | Exact match (calibrated/100) |
+| Body battery | Exact (+3 offset correction) |
+| Readiness | Exact |
+| HRV | Exact |
+| Skin temperature | Exact (calibrated/100) |
 | Continuous HR | API limitation, unavailable |
 
 ### References
@@ -361,20 +361,20 @@ ACWR 曾广泛用于运动科学，但已被质疑缺乏预测力。研究显示
 
 加权组合：恢复 0.35 + 睡眠 0.30 + 训练负荷 0.15 + 压力 0.10 + 血氧 0.10。数据缺失时权重按比例重分配。
 
-### 数据验证
+### 数据精度
 
-| 数据项 | 与 app 对比 |
-|--------|------------|
-| 步数/距离/卡路里 | 完全一致 |
-| 睡眠（深睡/浅睡/REM/醒来次数） | 完全一致 |
-| 睡眠评分 | 完全一致 |
-| 静息心率 | 完全一致 |
+| 数据项 | 精度 |
+|--------|------|
+| 步数/距离/卡路里 | 精确 |
+| 睡眠（深睡/浅睡/REM/醒来次数） | 精确 |
+| 睡眠评分 | 精确 |
+| 静息心率 | 精确 |
 | 压力 | 个位数偏差（取整方式不同） |
 | 血氧 | 平均值差 1（计算方式不同） |
-| 身体电量 | 完全一致（+3 偏移修正） |
-| 准备度 | 完全一致 |
-| HRV | 完全一致 |
-| 皮肤温度 | 完全一致（calibrated/100） |
+| 身体电量 | 精确（+3 偏移修正） |
+| 准备度 | 精确 |
+| HRV | 精确 |
+| 皮肤温度 | 精确（calibrated/100） |
 | 连续心率 | API 限制，不可用 |
 
 ### 参考文献

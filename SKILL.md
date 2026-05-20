@@ -52,9 +52,13 @@ python3 {skill_dir}/scripts/health_snapshot.py --date YYYY-MM-DD
 - 醒来次数 <3 次为佳
 - 睡眠效率 >85% 为佳
 
-### 3. 训练负荷
-- 急慢性比 0.8-1.3 为健康区间
-- >1.5 存在过度训练风险
+### 3. 训练负荷（心率储备法）
+- inactive: 无运动数据
+- detraining: <75 min/week，训练不足
+- low: 75-150 min/week，偏低
+- productive: 150-300 min/week，WHO 推荐范围
+- overreaching: 300-450 min/week，负荷偏高
+- high_risk: >450 min/week，过度训练风险
 
 ### 4. 身体电量
 - >70 适合训练，<30 需要休息
