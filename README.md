@@ -179,35 +179,15 @@ Weighted composite: Recovery 0.35 + Sleep 0.30 + Exertion 0.15 + Stress 0.10 + S
 
 ### References
 
-#### HRV Recovery and Baseline
-
-- Altini, M. (2013). Heart Rate Variability (HRV) for guided training. HRV4Training.
-- Plews, D. J., Laursen, P. B., et al. (2013). Training adaptation and HRV in elite endurance athletes. *Sports Medicine*, 43(7), 539-552.
-- Nuuttila, O.-P., et al. (2022). Reliability and sensitivity of nocturnal HR and HRV in monitoring individual responses to training load. *Int J Sports Physiol Perform*, 17(8), 1296.
-- Nature Scientific Reports (2025). Individual training prescribed by HRV, HR and well-being scores in experienced cyclists. *Sci Rep*, 15, 13540.
-- Frontiers in Sports and Active Living (2025). Mapping HRV in sports science: from monitoring to machine learning.
-- Terra Research (2025). Descriptive HRV using z-scores: analysis of 100,000 HRV records.
-- ScienceDirect (2025). Interpreting wearable-derived HRV, sleep, and workload in recovery capacity.
-
-#### Training Load (ACWR Criticism)
-
+- Altini, M. (2013). Heart Rate Variability (HRV) for guided training. HRV4Training. — 7-day rolling average method
+- Terra Research (2025). Descriptive HRV using z-scores: analysis of 100,000 HRV records. — z-score validation (only 4% exceed ±2 SD)
 - Hulin, B. T., & Gabbett, T. J. (2018). Indeed association does not equal prediction. *Br J Sports Med*, 53(3), 144.
 - Impellizzeri, F. M., et al. (2019). Acute to chronic workload ratio: is there scientific evidence? *Br J Sports Med*.
 - Wang, C., et al. (2020). Acute:chronic workload ratio and injury risk in sports: a systematic review. *Sports Medicine*.
-- MDPI Applied Sciences (2024). A systematic review on utilizing the acute to chronic workload ratio.
-
-#### Sleep Quality and Consistency
-
 - Fischer, D., et al. (2024). Sleep regularity index as an emerging digital measure. DIAMOND / DATAcc.
 - MIT Media Lab / BHI'25 (2025). Associations between circadian sleep alignment, sleep regularity, and well-being: evidence from wearable data.
-- MIT M.Eng. Thesis (2024). Predicting changes in individual wellbeing scores using sleep data from wearables.
-- Frontiers in Pain Research (2025). Comparing self-reported sleep quality and wearable-derived sleep metrics.
-- Sleep Advances / Oxford (2025). Performance validation of six commercial wrist-worn wearable sleep trackers.
-- PSQI: Buysse, D. J., et al. (1989). The Pittsburgh Sleep Quality Index. *Psychiatry Research*, 28(2), 193-213.
-
-#### Open Source Algorithms
-
-- Open Wearables (2025). Open-source health scoring algorithms for wearable data. MIT License. github.com/the-momentum/open-wearables
+- Buysse, D. J., et al. (1989). The Pittsburgh Sleep Quality Index. *Psychiatry Research*, 28(2), 193-213. — sleep onset latency thresholds
+- Open Wearables (2025). Open-source health scoring algorithms. MIT License. github.com/the-momentum/open-wearables
 - AI Endurance (2022-2025). Personalized HRV recovery model. aiendurance.com
 
 ### Tech Stack
@@ -399,35 +379,15 @@ ACWR 曾广泛用于运动科学，但已被质疑缺乏预测力。研究显示
 
 ### 参考文献
 
-#### HRV 恢复与基线
-
-- Altini, M. (2013). Heart Rate Variability (HRV) for guided training. HRV4Training.
-- Plews, D. J., Laursen, P. B., et al. (2013). Training adaptation and HRV in elite endurance athletes. *Sports Medicine*, 43(7), 539-552.
-- Nuuttila, O.-P., et al. (2022). Reliability and sensitivity of nocturnal HR and HRV in monitoring individual responses to training load. *Int J Sports Physiol Perform*, 17(8), 1296.
-- Nature Scientific Reports (2025). Individual training prescribed by HRV, HR and well-being scores in experienced cyclists. *Sci Rep*, 15, 13540.
-- Frontiers in Sports and Active Living (2025). Mapping HRV in sports science: from monitoring to machine learning.
-- Terra Research (2025). Descriptive HRV using z-scores: analysis of 100,000 HRV records.
-- ScienceDirect (2025). Interpreting wearable-derived HRV, sleep, and workload in recovery capacity.
-
-#### 训练负荷（ACWR 批评）
-
+- Altini, M. (2013). Heart Rate Variability (HRV) for guided training. HRV4Training. — 7 天滚动均值方法来源
+- Terra Research (2025). Descriptive HRV using z-scores: analysis of 100,000 HRV records. — z-score 验证（仅 4% 超过 ±2 SD）
 - Hulin, B. T., & Gabbett, T. J. (2018). Indeed association does not equal prediction. *Br J Sports Med*, 53(3), 144.
 - Impellizzeri, F. M., et al. (2019). Acute to chronic workload ratio: is there scientific evidence? *Br J Sports Med*.
 - Wang, C., et al. (2020). Acute:chronic workload ratio and injury risk in sports: a systematic review. *Sports Medicine*.
-- MDPI Applied Sciences (2024). A systematic review on utilizing the acute to chronic workload ratio.
-
-#### 睡眠质量与一致性
-
 - Fischer, D., et al. (2024). Sleep regularity index as an emerging digital measure. DIAMOND / DATAcc.
 - MIT Media Lab / BHI'25 (2025). Associations between circadian sleep alignment, sleep regularity, and well-being: evidence from wearable data.
-- MIT M.Eng. Thesis (2024). Predicting changes in individual wellbeing scores using sleep data from wearables.
-- Frontiers in Pain Research (2025). Comparing self-reported sleep quality and wearable-derived sleep metrics.
-- Sleep Advances / Oxford (2025). Performance validation of six commercial wrist-worn wearable sleep trackers.
-- PSQI: Buysse, D. J., et al. (1989). The Pittsburgh Sleep Quality Index. *Psychiatry Research*, 28(2), 193-213.
-
-#### 开源算法参考
-
-- Open Wearables (2025). Open-source health scoring algorithms for wearable data. MIT License. github.com/the-momentum/open-wearables
+- Buysse, D. J., et al. (1989). The Pittsburgh Sleep Quality Index. *Psychiatry Research*, 28(2), 193-213. — 入睡潜伏期临床阈值
+- Open Wearables (2025). Open-source health scoring algorithms. MIT License. github.com/the-momentum/open-wearables
 - AI Endurance (2022-2025). Personalized HRV recovery model. aiendurance.com
 
 ### 技术栈
