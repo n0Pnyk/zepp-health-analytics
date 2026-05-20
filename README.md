@@ -20,7 +20,7 @@ Open-source health scoring engine for Zepp/Amazfit wearables. Fetches health dat
 ### Installation
 
 ```bash
-git clone https://github.com/n0Pnyk/zepp-health.git
+git clone https://github.com/n0Pnyk/zepp-health-analytics.git
 cd zepp-health
 pip install -e .
 ```
@@ -240,7 +240,7 @@ Zepp/Amazfit 可穿戴设备的开源健康评分引擎。通过逆向工程 API
 ### 安装
 
 ```bash
-git clone https://github.com/n0Pnyk/zepp-health.git
+git clone https://github.com/n0Pnyk/zepp-health-analytics.git
 cd zepp-health
 pip install -e .
 ```
