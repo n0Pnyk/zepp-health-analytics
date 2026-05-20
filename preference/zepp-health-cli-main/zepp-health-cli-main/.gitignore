@@ -1,0 +1,32 @@
+# Secrets / personal data — NEVER commit these
+config.json
+.env
+.envrc
+# Proxy / network captures (any tool)
+*.har
+*.chlsj
+*.chls
+*.saz
+*.saz.zip
+*.flow
+*.mitm
+*.pcap
+*.pcapng
+captures/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

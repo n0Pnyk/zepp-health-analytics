@@ -1,0 +1,9 @@
+{
+  "app_token": "PASTE_APPTOKEN_FROM_CHARLES_CAPTURE_HERE",
+  "user_id": "1234567890",
+  "host": "api-mifit-us3.zepp.com",
+  "app_platform": "ios_phone",
+  "lang": "en",
+  "country": "US",
+  "timezone": "UTC"
+}
