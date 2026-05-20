@@ -8,21 +8,14 @@
 
 Open-source health scoring engine for Zepp/Amazfit wearables. Fetches health data via reverse-engineered API, computes personalized scores using evidence-based algorithms, and outputs structured reports.
 
-### Why This Tool?
+### Features
 
-Zepp (Amazfit) watches collect extensive health data but the app provides limited analysis and no data export. This tool fills the gap:
-
-| Capability | Zepp App | This Tool |
-|---|---|---|
-| Recovery scoring | Black-box readiness score | Transparent z-score vs 60-day personal baseline |
-| Training load | None | Heart Rate Reserve method with WHO-based targets |
-| Sleep consistency | None | Circular std dev of 7-day sleep/wake timing |
-| Sleep onset latency | Raw data only | Scored with clinical thresholds (PSQI standard) |
-| Personalized max HR | Fixed formula | Derived from your actual workout data |
-| Data export | None | Full JSON with all raw metrics |
-| 7-day trends | Limited | Complete trend data for all metrics |
-| LLM analysis | None | Structured snapshot for AI-powered insights |
-| Cross-metric analysis | None | HRV + stress + SpO2 + sleep + training correlation |
+- **Recovery scoring** — z-score comparison of 7-day HRV/RHR average against 60-day personal baseline
+- **Sleep quality** — 7-dimension scoring including sleep onset latency (PSQI standard) and schedule consistency (circular std dev)
+- **Training load** — Heart Rate Reserve method with personalized max HR from workout data, WHO-based targets
+- **Cross-metric analysis** — HRV + stress + SpO2 + sleep + training correlation
+- **Data export** — full JSON with all raw metrics and 7-day trends
+- **Structured snapshot** — LLM-ready output for AI-powered health insights
 
 ### Installation
 
@@ -221,10 +214,6 @@ Weighted composite: Recovery 0.35 + Sleep 0.30 + Exertion 0.15 + Stress 0.10 + S
 
 Python >= 3.10, httpx, pydantic v2, rich, python-dotenv
 
-### Skill Version
-
-For LLM-driven personalized health analysis (for OpenClaw / hermes-agent), see [zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill).
-
 ### Disclaimer
 
 This tool is for informational purposes only and does not constitute medical advice. Consult a healthcare professional for any health concerns.
@@ -239,21 +228,14 @@ This tool is for informational purposes only and does not constitute medical adv
 
 Zepp/Amazfit 可穿戴设备的开源健康评分引擎。通过逆向工程 API 获取健康数据，使用循证算法计算个性化评分，输出结构化报告。
 
-### 为什么需要这个工具？
+### 功能特性
 
-Zepp（Amazfit）手表采集了大量健康数据，但 App 提供的分析有限且不支持数据导出。本工具填补了这个空白：
-
-| 能力 | Zepp App | 本工具 |
-|---|---|---|
-| 恢复评分 | 黑盒 readiness 分 | 透明 z-score vs 60 天个人基线 |
-| 训练负荷 | 无 | 心率储备法 + WHO 推荐范围 |
-| 睡眠一致性 | 无 | 7 天入睡/起床时间的圆形标准差 |
-| 入睡潜伏期 | 仅原始数据 | 临床阈值评分（PSQI 标准） |
-| 个性化最大心率 | 固定公式 | 从实际运动数据推导 |
-| 数据导出 | 无 | 完整 JSON，包含所有原始指标 |
-| 7 天趋势 | 有限 | 所有指标的完整趋势数据 |
-| LLM 分析 | 无 | 结构化快照，支持 AI 洞察 |
-| 交叉分析 | 无 | HRV + 压力 + 血氧 + 睡眠 + 运动关联 |
+- **恢复评分** — 7 天 HRV/RHR 均值 vs 60 天个人基线的 z-score 对比
+- **睡眠质量** — 七维评分，包含入睡潜伏期（PSQI 标准）和作息一致性（圆形标准差）
+- **训练负荷** — 心率储备法，从运动数据推导个性化最大心率，基于 WHO 推荐范围
+- **交叉分析** — HRV + 压力 + 血氧 + 睡眠 + 运动多维关联
+- **数据导出** — 完整 JSON，包含所有原始指标和 7 天趋势
+- **结构化快照** — LLM 可消费的数据格式，支持 AI 健康分析
 
 ### 安装
 
@@ -451,10 +433,6 @@ ACWR 曾广泛用于运动科学，但已被质疑缺乏预测力。研究显示
 ### 技术栈
 
 Python >= 3.10, httpx, pydantic v2, rich, python-dotenv
-
-### Skill 版本
-
-如需 LLM 驱动的个性化健康分析（适合 OpenClaw / hermes-agent），请使用 [zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill)。
 
 ### 免责声明
 
