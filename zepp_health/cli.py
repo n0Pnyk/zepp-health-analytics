@@ -11,6 +11,8 @@ Usage:
     zepp-health readiness [--days N] [--json]
     zepp-health workouts [--days N] [--json]
     zepp-health hrv [--days N] [--json]
+    zepp-health respiratory [--days N] [--json]
+    zepp-health heart-rate [--days N] [--json] [--raw]
     zepp-health config --show|--path
 """
 
@@ -264,13 +266,60 @@ def cmd_hrv(args: argparse.Namespace) -> None:
     end_ts = int(end.timestamp() * 1000)
 
     with ZeppClient(config) as client:
-        sdnn = client.get_hrv(start_ts, end_ts, hrv_type="sdnn")
+        # Device only records RMSSD; sdnn variants return empty
         rmssd = client.get_hrv(start_ts, end_ts, hrv_type="rmssd")
 
     result = {
-        "sdnn": [{"ts": r.timestamp.isoformat(), "value": r.hrv_value} for r in sdnn],
         "rmssd": [{"ts": r.timestamp.isoformat(), "value": r.hrv_value} for r in rmssd],
     }
+
+    _emit(result, args)
+
+
+def cmd_respiratory(args: argparse.Namespace) -> None:
+    """View respiratory rate data."""
+    config = _load_config_from_args(args)
+    end = date.today()
+    start = end - timedelta(days=args.days - 1)
+
+    with ZeppClient(config) as client:
+        data = client.get_respiratory_rate(
+            int(datetime.combine(start, datetime.min.time()).timestamp() * 1000),
+            int(datetime.combine(end, datetime.max.time()).timestamp() * 1000),
+        )
+
+    result = [{
+        "ts": r.timestamp.isoformat(),
+        "breaths_per_minute": r.breaths_per_minute,
+    } for r in data]
+
+    _emit(result, args)
+
+
+def cmd_heart_rate(args: argparse.Namespace) -> None:
+    """View per-minute heart rate (band_data detail mode)."""
+    config = _load_config_from_args(args)
+    end = date.today()
+    start = end - timedelta(days=args.days - 1)
+
+    with ZeppClient(config) as client:
+        data = client.get_minute_heart_rate(start, end)
+
+    # Group by day for compact output
+    from collections import defaultdict
+    by_day: dict[str, list[int]] = defaultdict(list)
+    for r in data:
+        by_day[r.timestamp.strftime("%Y-%m-%d")].append(r.bpm)
+
+    if getattr(args, "raw", False):
+        _emit([{"ts": r.timestamp.isoformat(), "bpm": r.bpm} for r in data], args)
+        return
+
+    result = [{
+        "date": ds,
+        "min": min(v), "max": max(v), "avg": round(sum(v) / len(v), 1),
+        "samples": len(v),
+    } for ds, v in sorted(by_day.items())]
 
     _emit(result, args)
 
@@ -371,10 +420,23 @@ def main() -> None:
     sp.set_defaults(func=cmd_workouts)
 
     # hrv
-    sp = sub.add_parser("hrv", help="View HRV data")
+    sp = sub.add_parser("hrv", help="View HRV RMSSD data")
     sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
     sp.add_argument("--json", action="store_true", help="Output in JSON format")
     sp.set_defaults(func=cmd_hrv)
+
+    # respiratory
+    sp = sub.add_parser("respiratory", help="View respiratory rate data")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
+    sp.set_defaults(func=cmd_respiratory)
+
+    # heart-rate (per-minute)
+    sp = sub.add_parser("heart-rate", help="View per-minute heart rate (band_data detail mode)")
+    sp.add_argument("--days", type=int, default=7, help="Number of days (default: 7)")
+    sp.add_argument("--json", action="store_true", help="Output in JSON format")
+    sp.add_argument("--raw", action="store_true", help="Output all per-minute samples")
+    sp.set_defaults(func=cmd_heart_rate)
 
     # snapshot
     sp = sub.add_parser("snapshot", help="Export data snapshot for LLM analysis")
