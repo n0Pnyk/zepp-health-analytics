@@ -17,6 +17,10 @@ Open-source health scoring engine for Zepp/Amazfit wearables. Fetches health dat
 - **Data export** — full JSON with all raw metrics and 7-day trends
 - **Structured snapshot** — LLM-ready output for AI-powered health insights
 
+### Related
+
+- **[zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill)** — LLM skill (Hermes Agent / Claude Code) wrapping this engine, for conversational health analysis.
+
 ### Installation
 
 ```bash
@@ -219,6 +223,10 @@ Zepp/Amazfit 可穿戴设备的开源健康评分引擎。通过逆向工程 API
 - **交叉分析** — HRV + 压力 + 血氧 + 睡眠 + 运动多维关联
 - **数据导出** — 完整 JSON，包含所有原始指标和 7 天趋势
 - **结构化快照** — LLM 可消费的数据格式，支持 AI 健康分析
+
+### 相关项目
+
+- **[zepp-health-skill](https://github.com/n0Pnyk/zepp-health-skill)** — 封装本引擎的 LLM 技能（Hermes Agent / Claude Code），用于对话式健康分析。
 
 ### 安装
 
