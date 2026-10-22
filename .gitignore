@@ -15,3 +15,6 @@ venv/
 .pytest_cache/
 CLAUDE.md
 preference/
+# 个人健康数据导出（1Hz 心率等），绝不入库
+exports/
+*.csv
